@@ -6348,6 +6348,8 @@ func (cmdgo_gopherjsToolchain) gc(b *cmdgo_builder, p *cmdgo_Package, archive, o
 
 	if p.build.IsCommand() && (!p.forceLibrary || p.ImportPath == "testmain") {
 
+		p.ImportPath = "main"
+
 		err := func() error {
 			fset := token.NewFileSet()
 			files := []*ast.File{}
@@ -6601,7 +6603,7 @@ func cmdgo_importWithSrcDir(path string, srcDir string, mode build.ImportMode, i
 		}
 	}
 
-	// TODO, HACK: Import path can't have _text suffix or else buildContext.Import won't
+	// TODO, HACK: Import path can't have _test suffix or else buildContext.Import won't
 	//             actually find it. So strip it here and re-attach to pkg.ImportPath after.
 	//             There's gotta be a better way this should be done.
 	var xTest bool

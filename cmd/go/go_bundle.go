@@ -6348,6 +6348,8 @@ func (gopherjsToolchain) gc(b *builder, p *Package, archive, obj string, asmhdr 
 
 	if p.build.IsCommand() && (!p.forceLibrary || p.ImportPath == "testmain") {
 
+		p.ImportPath = "main"
+
 		err := func() error {
 			fset := token.NewFileSet()
 			files := []*ast.File{}
@@ -6601,7 +6603,7 @@ func importWithSrcDir(path string, srcDir string, mode build.ImportMode, install
 		}
 	}
 
-	// TODO, HACK: Import path can't have _text suffix or else buildContext.Import won't
+	// TODO, HACK: Import path can't have _test suffix or else buildContext.Import won't
 	//             actually find it. So strip it here and re-attach to pkg.ImportPath after.
 	//             There's gotta be a better way this should be done.
 	var xTest bool
